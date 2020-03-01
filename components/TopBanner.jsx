@@ -1,18 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { XMark } from '../svg/XMark'
-import useWindowSize from './hooks/useWindowSize'
+// import useWindowSize from './hooks/useWindowSize'
 const defaultSVGDimension = { width: 12, height: 12 }
 
-export const TopHeader = () => {
+export const TopBanner = ({ windowSize, size, memoWindowSizer }) => {
 	const [topIsShown, setTopIsShown] = useState(true)
-	const [windowSize, setWindowSize] = useState()
 	const [svgDimensions, setSvgDimensions] = useState(defaultSVGDimension)
 
-	const size = useWindowSize()
-	const memoWindowSizer = useCallback(() => {
-		// console.log(size)
-		setWindowSize(size)
-	})
 
 	useEffect(() => {
 		window.addEventListener('resize', memoWindowSizer)
@@ -29,12 +23,17 @@ export const TopHeader = () => {
 
 	return (
 		<div
-			className={`bg-gradient-brand justify-between ${
-				topIsShown ? 'flex' : 'hidden'
+			className={`bg-gradient-brand relative ${
+				topIsShown ? 'block' : 'hidden'
 			}`}
 		>
-			<div className="p-2 text-white md:py-4">Welcome to this site!</div>
-			<button className="mr-4" onClick={() => setTopIsShown(false)}>
+			<div className="p-2 text-center text-white md:py-4">
+				Welcome to this site!
+			</div>
+			<button
+				className="absolute top-50 right-1r transform -translate-y-1/2"
+				onClick={() => setTopIsShown(false)}
+			>
 				<XMark
 					color="white"
 					width={svgDimensions.width}
