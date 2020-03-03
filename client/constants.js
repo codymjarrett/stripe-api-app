@@ -1,0 +1,3 @@
+export const SEARCH = 'SEARCH'
+export const SEARCH_IS_ACTIVE = 'SEARCH_IS_ACTIVE'
+export const SEARCH_NOT_ACTIVE = 'SEARCH_NOT_ACTIVE'
