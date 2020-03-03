@@ -28,12 +28,6 @@ export const Shoes = () => {
 					<ShoeCard key={id} name={name} price={price} image={image} />
 				))}
 			</div>
-			{/* <h2>WOMEN</h2>
-			<div className="flex justify-between flex-wrap">
-				{state.women.shoes.map(({ id, name, price, image }) => (
-					<ShoeCard key={id} name={name} price={price} image={image} />
-				))} 
-			</div>  */}
 		</div>
 	)
 }

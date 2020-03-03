@@ -3,12 +3,12 @@ import useWindowSize from './hooks/useWindowSize'
 import { Hamburger } from '../svg/Hamburger'
 import { MagGlass } from '../svg/MagGlass'
 import { XMark } from '../svg/XMark'
-import { SEARCH, SEARCH_IS_ACTIVE, SEARCH_NOT_ACTIVE } from '../constants'
+import { SEARCH, SEARCH_IS_ACTIVE, SEARCH_NOT_ACTIVE } from '../util/constants'
 
 import { TopBanner } from './TopBanner'
 import { SvgButton } from '../svg/SvgButton'
 
-import { AppContext } from '../context'
+import { AppContext } from '../util/context'
 
 // working on gql
 export const Header = () => {

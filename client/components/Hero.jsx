@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { hero } from '../images/hero'
-import { AppContext } from '../context'
+import { AppContext } from '../util/context'
 
 export const Hero = () => {
 	const { state, dispatch } = useContext(AppContext)
