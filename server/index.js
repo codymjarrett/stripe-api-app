@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server-express')
 const express = require('express')
+const cors = require('cors')
 
 require('./config')
 
@@ -10,6 +11,7 @@ const typeDefs = gql`
 		name: String!
 		price: Int!
 		image: String!
+		gender: Gender!
 		inventory: [Inventory!]!
 	}
 
@@ -41,6 +43,7 @@ const typeDefs = gql`
 	enum Gender {
 		WOMEN
 		MEN
+		UNISEX
 	}
 
 	type Query {
@@ -53,9 +56,10 @@ const typeDefs = gql`
 			name: String!
 			price: Int!
 			image: String!
+			gender: Gender!
 			inventory: [InventoryInput!]!
 		): Shoe
-		addNewInventoryToShow(input: UpdateInventoryInput!): Shoe
+		addNewInventoryToShoe(input: UpdateInventoryInput!): Shoe
 	}
 `
 
@@ -72,7 +76,7 @@ const resolvers = {
 				return e.message
 			}
 		},
-		addNewInventoryToShow: async (_, args) => {
+		addNewInventoryToShoe: async (_, args) => {
 			try {
 				let response = await Shoe.findByIdAndUpdate(
 					{ _id: args.input.id },
@@ -93,7 +97,7 @@ const server = new ApolloServer({ typeDefs, resolvers })
 
 const app = express()
 server.applyMiddleware({ app })
-// app.use(cors())
+app.use(cors())
 
 app.listen({ port: 4000 }, () => {
 	console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

@@ -15,6 +15,11 @@ const shoeSchema = new Schema({
         type: String,
         required: true,
     },
+    gender: {
+		type: String,
+		enum: ['WOMEN', 'MEN', 'UNISEX'],
+		required: true,
+	},
     //! ADD THIS BACK LATER
     inventory: [InventorySchema],
 })
