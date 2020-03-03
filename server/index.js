@@ -1,39 +1,42 @@
 const { ApolloServer, gql } = require('apollo-server-express')
 const express = require('express')
-var colors = require('colors/safe')
 
 require('./config')
 
 const { Shoe, Inventory } = require('./models')
-//  change
 const typeDefs = gql`
 	type Shoe {
 		id: ID!
 		name: String!
 		price: Int!
 		image: String!
-		# stock: [Inventory!]!
+		inventory: [Inventory!]!
 	}
 
 	# input ShoeInput {
 	# 	name: String!
 	# 	price: Int!
 	# 	image: String!
-	# 	# stock: [InventoryInput!]!
+	# 	inventory: InventoryInput!
 	# }
 
-	# type Inventory {
-	# 	id: ID!
-	# 	size: String!
-	# 	gender: Gender!
-	# 	quantity: Int!
-	# }
+	type Inventory {
+		id: ID!
+		size: String!
+		gender: Gender!
+		quantity: Int!
+	}
 
-	# input InventoryInput {
-	# 	size: String!
-	# 	gender: Gender!
-	# 	quantity: Int!
-	# }
+	input InventoryInput {
+		size: String!
+		gender: Gender!
+		quantity: Int!
+	}
+
+	input UpdateInventoryInput {
+		id: ID!
+		inventory: InventoryInput!
+	}
 
 	enum Gender {
 		WOMEN
@@ -46,8 +49,13 @@ const typeDefs = gql`
 	}
 
 	type Mutation {
-		# addNewShoe(input: ShoeInput): Shoe
-		addNewShoe(name: String!, price: Int!, image: String!): Shoe
+		addNewShoe(
+			name: String!
+			price: Int!
+			image: String!
+			inventory: [InventoryInput!]!
+		): Shoe
+		addNewInventoryToShow(input: UpdateInventoryInput!): Shoe
 	}
 `
 
@@ -58,9 +66,20 @@ const resolvers = {
 	Mutation: {
 		addNewShoe: async (_, args) => {
 			try {
-				console.log('args', args)
 				let response = await Shoe.create(args)
-				console.log('response', response)
+				return response
+			} catch (e) {
+				return e.message
+			}
+		},
+		addNewInventoryToShow: async (_, args) => {
+			try {
+				let response = await Shoe.findByIdAndUpdate(
+					{ _id: args.input.id },
+					{ $push: { inventory: args.input.inventory } },
+					{ upsert: true, new: true }
+					// ! ADDING A CALLBACK HERE WILL TRIGGER DUPLICATE ENTRIES
+				)
 				return response
 			} catch (e) {
 				return e.message

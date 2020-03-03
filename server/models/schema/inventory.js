@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const inventorySchema = new Schema({
+const InventorySchema = new Schema({
 	size: {
 		type: String,
 		required: true,
@@ -17,6 +17,4 @@ const inventorySchema = new Schema({
 	},
 })
 
-const Inventory = mongoose.model('inventory', inventorySchema)
-
-module.exports = Inventory
+module.exports = InventorySchema

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const InventorySchema = require('./inventory')
 
 const shoeSchema = new Schema({
     name: {
@@ -15,10 +16,7 @@ const shoeSchema = new Schema({
         required: true,
     },
     //! ADD THIS BACK LATER
-    // stock: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Inventory',
-    // }],
+    inventory: [InventorySchema],
 })
 
 const Shoe = mongoose.model('shoe', shoeSchema)
