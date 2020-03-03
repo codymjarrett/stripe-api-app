@@ -5,7 +5,7 @@ var colors = require('colors/safe')
 require('./config')
 
 const { Shoe, Inventory } = require('./models')
-
+//  change
 const typeDefs = gql`
 	type Shoe {
 		id: ID!
@@ -50,7 +50,6 @@ const typeDefs = gql`
 		addNewShoe(name: String!, price: Int!, image: String!): Shoe
 	}
 `
-
 
 const resolvers = {
 	Query: {
