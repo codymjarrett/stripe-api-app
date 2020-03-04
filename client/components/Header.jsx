@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from 'react'
+import Link from 'next/link'
+
 import useWindowSize from './hooks/useWindowSize'
 import { Hamburger } from '../svg/Hamburger'
 import { MagGlass } from '../svg/MagGlass'
@@ -77,7 +79,9 @@ export const Header = () => {
 						/>
 					</div>
 				) : (
-					<h1>Name of this site!</h1>
+					<Link href="/">
+						<h1 className="cursor-pointer">Name of this site!</h1>
+					</Link>
 				)}
 				<SvgButton handleOnClick={handleOnClick}>
 					{renderToggleButton()}

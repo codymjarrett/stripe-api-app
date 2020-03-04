@@ -48,7 +48,7 @@ const typeDefs = gql`
 
 	type Query {
 		getAllShoes: [Shoe!]!
-		# shoe(id: ID!): Shoe
+		getOneShoe(shoeId: ID!): Shoe
 	}
 
 	type Mutation {
@@ -65,7 +65,9 @@ const typeDefs = gql`
 
 const resolvers = {
 	Query: {
-		getAllShoes: async () => await Shoe.find({}).exec(),
+		getAllShoes: async (obj, args, context, info) => await Shoe.find({}).exec(),
+		getOneShoe: async (obj, args, context, info) =>
+			await Shoe.findById(args.shoeId).exec(),
 	},
 	Mutation: {
 		addNewShoe: async (_, args) => {
@@ -92,7 +94,6 @@ const resolvers = {
 	},
 }
 
-// 3
 const server = new ApolloServer({ typeDefs, resolvers })
 
 const app = express()
@@ -102,8 +103,3 @@ app.use(cors())
 app.listen({ port: 4000 }, () => {
 	console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 })
-
-// const app = express()
-
-// app.use(express.json())
-// app.use(cors())

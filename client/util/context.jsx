@@ -1,22 +1,21 @@
 import { createContext, useEffect, useReducer } from 'react'
-import { inventory } from './data'
 
 export const AppContext = createContext()
 
-const initialState = Object.assign({}, inventory,{searchIsActive: false})
+const initialState = {
+	genderSelection: ''
+}
 
-// const parseShoeNames = state => {
-// 	const arrayFromInventory = [state.mens, state.women]
-// 	return arrayFromInventory
-// 		.map(item => item.shoes)[0]
-// 		.map(item => item.name)
-// 		.concat(
-// 			arrayFromInventory.map(item => item.shoes)[1].map(item => item.name)
-// 		)
-// }
+
+
 
 const reducer = (state, action) => {
 	switch (action.type) {
+		case 'SELECT_SHOE_GENDER':
+			return {
+				...state,
+				genderSelection: action.payload
+			}
 		// case 'SEARCH':
 		// 	// console.log(action.payload)
 		// 	return parseShoeNames(state).filter(shoe =>

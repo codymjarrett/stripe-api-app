@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 
-
 export const SHOES_QUERY = gql`
 	{
 		getAllShoes {
@@ -11,4 +10,3 @@ export const SHOES_QUERY = gql`
 		}
 	}
 `
-

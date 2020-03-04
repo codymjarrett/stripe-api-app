@@ -22,10 +22,10 @@ export const Shoes = () => {
 
 	return (
 		<div className="mt-4 p-2">
-			<h2>SHOES</h2>
-			<div className="flex justify-between flex-wrap">
+			<h2>MOST POPULAR</h2>
+			<div className="flex flex-wrap justify-between mt-4">
 				{data.getAllShoes.map(({ id, name, price, image }) => (
-					<ShoeCard key={id} name={name} price={price} image={image} />
+					<ShoeCard key={id} id={id} name={name} price={price} image={image} />
 				))}
 			</div>
 		</div>

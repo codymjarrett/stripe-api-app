@@ -4,6 +4,10 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import AppProvider from '../util/context'
 
 import withData from '../util/apollo-client'
+import { Layout } from '../components/Layout'
+
+
+import '../styles/index.css'
 
 class MyApp extends App {
 	render() {
@@ -11,7 +15,9 @@ class MyApp extends App {
 		return (
 			<ApolloProvider client={apollo}>
 				<AppProvider>
-					<Component {...pageProps} />
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
 				</AppProvider>
 			</ApolloProvider>
 		)
