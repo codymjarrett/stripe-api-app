@@ -8,7 +8,7 @@ export const Hero = () => {
 
 	return (
 		<div className="relative">
-			{state.searchIsActive ? (
+			{state.searchSelection.length > 0 ? (
 				<div className="absolute bg-white top-0 left-0 right-0 bottom-0">
 					hello
 				</div>

@@ -5,7 +5,11 @@ import useWindowSize from './hooks/useWindowSize'
 import { Hamburger } from '../svg/Hamburger'
 import { MagGlass } from '../svg/MagGlass'
 import { XMark } from '../svg/XMark'
-import { SEARCH, SEARCH_IS_ACTIVE, SEARCH_NOT_ACTIVE } from '../util/constants'
+import {
+	SEARCH_SELECTION,
+	SEARCH_IS_ACTIVE,
+	SEARCH_NOT_ACTIVE,
+} from '../util/constants'
 
 import { TopBanner } from './TopBanner'
 import { SvgButton } from '../svg/SvgButton'
@@ -15,33 +19,55 @@ import { AppContext } from '../util/context'
 // working on gql
 export const Header = () => {
 	const [windowSize, setWindowSize] = useState()
-	const [searchActive, setSearchActive] = useState(false)
-	const [searchInput, setSearchInput] = useState('')
-	const { dispatch } = useContext(AppContext)
+	const { state, dispatch } = useContext(AppContext)
 
 	const size = useWindowSize()
+
+	// useEffect(() => {
+	// 	if (state.searchSelection.length > 0) {
+	// 		dispatch({ type: SEARCH_IS_ACTIVE, payload: true })
+	// 	} else if (state.searchSelection.length === 0) {
+	// 		dispatch({ type: SEARCH_IS_ACTIVE, payload: false })
+	// 	}
+	// }, [state])
 
 	const memoWindowSizer = useCallback(() => {
 		// console.log(size)
 		setWindowSize(size)
 	})
 
-	const handleOnClick = () => setSearchActive(!searchActive)
+	const handleOnClick = () => {
+		dispatch({
+			type: SEARCH_IS_ACTIVE,
+			payload: !state.searchIsActive,
+		})
+		// setSearchActive(!searchActive)
+		// if (searchActive) {
+		// 	dispatch({
+		// 		type: SEARCH_SELECTION,
+		// 		payload: '',
+		// 	})
+		// }
+	}
 
 	const renderToggleButton = () => {
-		if (searchActive === false) {
+		if (state.searchIsActive === false) {
 			return <MagGlass height="24" width="24" />
-		} else if (searchActive === true) {
+		} else if (state.searchIsActive === true) {
 			return <XMark height="24" width="24" />
 		}
 	}
 
 	const handleOnChange = e => {
-		setSearchInput(e.target.value)
-		if (searchInput.length > 0) {
-			dispatch({ type: SEARCH_IS_ACTIVE })
-		} else if (searchInput.length == 0 || searchInput === '') {
-			dispatch({ type: SEARCH_NOT_ACTIVE })
+		dispatch({
+			type: SEARCH_SELECTION,
+			payload: e.target.value,
+		})
+		if (e.target.value.length > 0) {
+			dispatch({ type: SEARCH_IS_ACTIVE, payload: true })
+		}
+		if (e.target.value === '') {
+			dispatch({ type: SEARCH_IS_ACTIVE, payload: false })
 		}
 	}
 
@@ -68,7 +94,7 @@ export const Header = () => {
 				<SvgButton>
 					<Hamburger height="24" width="24" />
 				</SvgButton>
-				{searchActive ? (
+				{state.searchIsActive ? (
 					<div className="flex-1 mx-4 bg-gray-100 border-solid border-2 border-black">
 						<input
 							className="w-full"

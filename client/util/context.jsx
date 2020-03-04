@@ -3,35 +3,33 @@ import { createContext, useEffect, useReducer } from 'react'
 export const AppContext = createContext()
 
 const initialState = {
-	genderSelection: ''
+	genderSelection: '',
+	searchSelection: '',
+	searchIsActive: false,
 }
-
-
-
 
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'SELECT_SHOE_GENDER':
 			return {
 				...state,
-				genderSelection: action.payload
+				genderSelection: action.payload,
 			}
-		// case 'SEARCH':
-		// 	// console.log(action.payload)
-		// 	return parseShoeNames(state).filter(shoe =>
-		// 		shoe.toLowerCase().includes(action.payload)
-		// 	)
+		case 'SEARCH_SELECTION':
+			return {
+				...state,
+				searchSelection: action.payload,
+			}
 		case 'SEARCH_IS_ACTIVE':
 			return {
 				...state,
-				searchIsActive: true
+				searchIsActive: action.payload,
 			}
-		case 'SEARCH_NOT_ACTIVE':
-			return {
-				...state,
-				searchIsActive: false
-			}
-
+		// case 'SEARCH_NOT_ACTIVE':
+		// 	return {
+		// 		...state,
+		// 		searchIsActive: false,
+		// 	}
 	}
 }
 
