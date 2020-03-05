@@ -45,6 +45,11 @@ const ShoeId = () => {
 				type: ADD_ITEMS_TO_CART,
 				payload: state.selectedShoe,
 			})
+			// reset the shoe size state to empty object 
+			dispatch({
+				type: SET_SHOE_SIZE_TO_STATE,
+				payload: {},
+			})
 			setButtonError(false)
 		}
 	}
