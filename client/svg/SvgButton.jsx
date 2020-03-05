@@ -1,3 +1,3 @@
-export const SvgButton = ({ children, handleOnClick }) => (
-	<button onClick={() => handleOnClick()}>{children}</button>
+export const SvgButton = ({ children, handleOnClick, classes }) => (
+	<button className={classes} onClick={() => handleOnClick()}>{children}</button>
 )

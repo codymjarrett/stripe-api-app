@@ -7,7 +7,9 @@ const initialState = {
 	searchSelection: '',
 	searchIsActive: false,
 	data: [],
-	filteredSearch: []
+	filteredSearch: [],
+	selectedShoe: {},
+	cart: [],
 }
 
 const reducer = (state, action) => {
@@ -27,21 +29,26 @@ const reducer = (state, action) => {
 				...state,
 				searchIsActive: action.payload,
 			}
-			case 'SET_SHOE_DATA':
-				return {
-					...state,
-					data: [action.payload]
-				}
-			case 'SET_FILTERED_SEARCH':
-				return {
-					...state,
-					filteredSearch: action.payload
-				}
-		// case 'SEARCH_NOT_ACTIVE':
-		// 	return {
-		// 		...state,
-		// 		searchIsActive: false,
-		// 	}
+		case 'SET_SHOE_DATA':
+			return {
+				...state,
+				data: [action.payload],
+			}
+		case 'SET_FILTERED_SEARCH':
+			return {
+				...state,
+				filteredSearch: action.payload,
+			}
+		case 'SET_SHOE_SIZE_TO_STATE':
+			return {
+				...state,
+				selectedShoe: action.payload,
+			}
+		case 'ADD_ITEMS_TO_CART':
+			return {
+				...state,
+				cart: state.cart.concat(action.payload)
+			}
 	}
 }
 

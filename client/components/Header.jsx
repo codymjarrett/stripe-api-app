@@ -5,6 +5,7 @@ import useWindowSize from './hooks/useWindowSize'
 import { Hamburger } from '../svg/Hamburger'
 import { MagGlass } from '../svg/MagGlass'
 import { XMark } from '../svg/XMark'
+import { ShoppingCart } from '../svg/ShoppingCart'
 import {
 	SEARCH_SELECTION,
 	SEARCH_IS_ACTIVE,
@@ -104,9 +105,21 @@ export const Header = () => {
 						<h1 className="cursor-pointer">Name of this site!</h1>
 					</Link>
 				)}
-				<SvgButton handleOnClick={handleOnClick}>
-					{renderToggleButton()}
-				</SvgButton>
+				<div className="flex items-center">
+					<SvgButton classes="mr-4" handleOnClick={handleOnClick}>
+						{renderToggleButton()}
+					</SvgButton>
+					<div className="relative">
+						<SvgButton classes="align-middle">
+							<ShoppingCart height="26" width="26" />
+						</SvgButton>
+						{state.cart.length > 0 ? (
+							<span className="absolute bg-orange-600 left-50 rounded-full w-4 text-center text-white text-xs -top-575 transform -translate-x-1/2">
+								{state.cart.length}
+							</span>
+						) : null}
+					</div>
+				</div>
 			</div>
 			<nav></nav>
 		</header>
