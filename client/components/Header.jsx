@@ -8,46 +8,44 @@ import { XMark } from '../svg/XMark'
 import {
 	SEARCH_SELECTION,
 	SEARCH_IS_ACTIVE,
-	SEARCH_NOT_ACTIVE,
+	SET_SHOE_DATA,
+	SET_FILTERED_SEARCH,
 } from '../util/constants'
 
 import { TopBanner } from './TopBanner'
 import { SvgButton } from '../svg/SvgButton'
 
 import { AppContext } from '../util/context'
+import { useQuery } from '@apollo/react-hooks'
+import { SHOES_QUERY } from '../graphql/shoes.query'
+import {
+	setShoeData,
+	setSearchIsActive,
+	setFilteredSearch,
+	setSearchSelection,
+} from '../util/actions'
 
-// working on gql
 export const Header = () => {
 	const [windowSize, setWindowSize] = useState()
 	const { state, dispatch } = useContext(AppContext)
+	const { data, loading, error } = useQuery(SHOES_QUERY)
 
 	const size = useWindowSize()
 
-	// useEffect(() => {
-	// 	if (state.searchSelection.length > 0) {
-	// 		dispatch({ type: SEARCH_IS_ACTIVE, payload: true })
-	// 	} else if (state.searchSelection.length === 0) {
-	// 		dispatch({ type: SEARCH_IS_ACTIVE, payload: false })
-	// 	}
-	// }, [state])
+	useEffect(() => {
+		setShoeData(dispatch, data)
+	}, [data])
 
 	const memoWindowSizer = useCallback(() => {
-		// console.log(size)
 		setWindowSize(size)
 	})
 
 	const handleOnClick = () => {
-		dispatch({
-			type: SEARCH_IS_ACTIVE,
-			payload: !state.searchIsActive,
-		})
-		// setSearchActive(!searchActive)
-		// if (searchActive) {
-		// 	dispatch({
-		// 		type: SEARCH_SELECTION,
-		// 		payload: '',
-		// 	})
-		// }
+		setSearchIsActive(dispatch, !state.searchIsActive)
+		if (state.searchIsActive) {
+			setFilteredSearch(dispatch, [])
+			setSearchSelection(dispatch, '')
+		}
 	}
 
 	const renderToggleButton = () => {
@@ -58,27 +56,24 @@ export const Header = () => {
 		}
 	}
 
-	const handleOnChange = e => {
-		dispatch({
-			type: SEARCH_SELECTION,
-			payload: e.target.value,
-		})
-		if (e.target.value.length > 0) {
-			dispatch({ type: SEARCH_IS_ACTIVE, payload: true })
-		}
-		if (e.target.value === '') {
-			dispatch({ type: SEARCH_IS_ACTIVE, payload: false })
-		}
+	const filterSearchData = (state, string) => {
+		return state.data[0].getAllShoes.filter(shoe =>
+			shoe.name.toLowerCase().includes(string.toLowerCase())
+		)
 	}
 
-	// const handleSearch = e => {
-	// 	if (e.key === 'Enter') {
-	// 		dispatch({
-	// 			type: SEARCH,
-	// 			payload: searchInput,
-	// 		})
-	// 	}
-	// }
+	const handleOnChange = e => {
+		setSearchSelection(dispatch, e.target.value)
+		const filteredSearchResults = filterSearchData(state, e.target.value)
+		setFilteredSearch(dispatch, filteredSearchResults)
+
+		if (e.target.value.length > 0) {
+			setSearchIsActive(dispatch, true)
+		}
+		if (e.target.value === '') {
+			setSearchIsActive(dispatch, false)
+		}
+	}
 
 	return (
 		<header>

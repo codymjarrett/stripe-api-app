@@ -6,6 +6,8 @@ const initialState = {
 	genderSelection: '',
 	searchSelection: '',
 	searchIsActive: false,
+	data: [],
+	filteredSearch: []
 }
 
 const reducer = (state, action) => {
@@ -25,6 +27,16 @@ const reducer = (state, action) => {
 				...state,
 				searchIsActive: action.payload,
 			}
+			case 'SET_SHOE_DATA':
+				return {
+					...state,
+					data: [action.payload]
+				}
+			case 'SET_FILTERED_SEARCH':
+				return {
+					...state,
+					filteredSearch: action.payload
+				}
 		// case 'SEARCH_NOT_ACTIVE':
 		// 	return {
 		// 		...state,

@@ -12,11 +12,13 @@ module.exports = {
 				'72': '18rem',
 				'84': '21rem',
 				'96': '24rem',
+		
 			},
 		},
 		inset: {
 			'0': 0,
 			'1r': '1rem',
+			'6r': '6rem',
 			'50': '50%',
 		},
 		minHeight: {
@@ -27,10 +29,16 @@ module.exports = {
 			'3/4': '75%',
 			full: '100%',
 		},
-		// width: {
-		// 	'w-36': 
-		// }
+		
 	},
 	variants: {},
 	plugins: [],
+	modules: {
+		appearance: ['responsive'],
+		backgroundAttachment: ['responsive'],
+		backgroundColors: ['responsive', 'hover'],
+		backgroundPosition: ['responsive'],
+		backgroundRepeat: ['responsive'],
+		// ...
+	  },
 }
