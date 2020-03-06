@@ -7,6 +7,13 @@ export const SHOES_QUERY = gql`
 			name
 			image
 			price
+			gender
+			inventory {
+				size
+				id
+				gender
+				quantity
+			}
 		}
 	}
 `

@@ -10,6 +10,7 @@ const initialState = {
 	filteredSearch: [],
 	selectedShoe: {},
 	cart: [],
+	stripePayload: [],
 }
 
 const reducer = (state, action) => {
@@ -47,7 +48,52 @@ const reducer = (state, action) => {
 		case 'ADD_ITEMS_TO_CART':
 			return {
 				...state,
-				cart: state.cart.concat(action.payload)
+				cart: state.cart.concat(action.payload),
+			}
+		case 'SET_STRIPE_OBJECT':
+			return {
+				...state,
+				stripePayload: state.stripePayload.concat(action.payload),
+			}
+		case 'SET_SIZE_ONCHANGE':
+			const newSize = state.cart.map((item, index) => {
+				if (index === action.index) {
+					return {
+						...item,
+						selectedSize: {
+							...item.selectedSize,
+							size: action.payload,
+						},
+					}
+				} else {
+					return {
+						...item,
+					}
+				}
+			})
+			return {
+				...state,
+				cart: newSize,
+			}
+		case 'SET_QUANTITY_ONCHANGE':
+			const newQuantity = state.cart.map((item, index) => {
+				if (index === action.index) {
+					return {
+						...item,
+						selectedSize: {
+							...item.selectedSize,
+							quantity: action.payload,
+						},
+					}
+				} else {
+					return {
+						...item,
+					}
+				}
+			})
+			return {
+				...state,
+				cart: newQuantity,
 			}
 	}
 }

@@ -10,8 +10,11 @@ import {
 } from '../../util/constants'
 import { selectShoeGender } from '../../util/actions'
 
-const ShoeId = () => {
+import { Button } from '../../components/Button'
+
+export default function ShoeId() {
 	const [buttonError, setButtonError] = useState(false)
+	const [activeButton, setActiveButton] = useState(null)
 	const { state, dispatch } = useContext(AppContext)
 	const router = useRouter()
 	const { shoeId } = router.query
@@ -22,34 +25,56 @@ const ShoeId = () => {
 	const handleSelectOnChange = e => {
 		selectShoeGender(dispatch, e.target.value)
 	}
-	const handleShoeSizeClick = (name, id, sizeId, gender, size) => {
+	const handleShoeSizeClick = (
+		name,
+		image,
+		price,
+		shoeGender,
+		id,
+		inventory,
+		sizeId,
+		sizeGender,
+		size,
+		index
+	) => {
+		setActiveButton(index)
 		dispatch({
 			type: SET_SHOE_SIZE_TO_STATE,
 			payload: {
 				shoe: name,
+				image,
+				price,
 				id,
+				shoeGender,
+				inventory,
 				selectedSize: {
 					id: sizeId,
-					gender,
+					sizeGender,
 					size,
+					quantity: 1,
 				},
 			},
 		})
 	}
 
-	const handleAddToCart = () => {
+	const addToCart = () => {
+		// * check whether the selected shoe object is 'empty' before allowing click to add to cart
 		if (Object.keys(state.selectedShoe).length === 0) {
+			// * if so, set error state
 			setButtonError(true)
 		} else {
+			// * reset the active button index to null when add to cart clicked
+			setActiveButton(null)
 			dispatch({
 				type: ADD_ITEMS_TO_CART,
 				payload: state.selectedShoe,
 			})
-			// reset the shoe size state to empty object 
+			// * reset the shoe size state to empty object
 			dispatch({
 				type: SET_SHOE_SIZE_TO_STATE,
 				payload: {},
 			})
+			// * get rid of the error state
 			setButtonError(false)
 		}
 	}
@@ -102,20 +127,20 @@ const ShoeId = () => {
 		image,
 		price,
 		inventory,
-		gender,
+		gender: shoeGender,
 	} = data.getOneShoe
 	return (
 		<div className="p-4">
 			<div>
-				<img src={image} alt="" />
+				<img src={image} alt={name} />
 			</div>
 			<p className="font-bold text-center text-xl">{name}</p>
 			<p className="font-medium text-center text-4xl">${price}</p>
 			<div>
-				<div className="flex justify-around">
+				<div className="flex justify-around mt-4">
 					<p>Select Size</p>
 					<select className="w-32" onChange={handleSelectOnChange}>
-						{renderAppropriateOptions(gender)}
+						{renderAppropriateOptions(shoeGender)}
 					</select>
 				</div>
 				<div
@@ -125,34 +150,43 @@ const ShoeId = () => {
 				>
 					{inventory
 						.filter(s => s.gender === state.genderSelection)
-						.map(({ size: shoeSize, quantity, id: sizeId, gender }) => (
-							<button
-								key={sizeId}
-								onClick={() =>
-									handleShoeSizeClick(
-										name,
-										currentShoeID,
-										sizeId,
-										gender,
-										shoeSize
-									)
-								}
-								className="block border-solid border-2 border-gray-400 hover:bg-gray-500 hover:text-white rounded-md py-4"
-							>
-								{shoeSize}
-							</button>
-						))}
+						.sort((a, b) => a.size - b.size)
+						.map(
+							({ size: shoeSize, id: sizeId, gender: sizeGender }, index) => (
+								<button
+									key={sizeId}
+									onClick={() =>
+										handleShoeSizeClick(
+											name,
+											image,
+											price,
+											shoeGender,
+											currentShoeID,
+											inventory,
+											sizeId,
+											sizeGender,
+											shoeSize,
+											index
+										)
+									}
+									className={`block border-solid border-2 border-gray-400 hover:border-black rounded-md py-4 ${
+										index === activeButton ? 'bg-black text-white' : null
+									}`}
+								>
+									{shoeSize}
+								</button>
+							)
+						)}
 				</div>
+				{buttonError ? (
+					<div className="text-red-600 text-center mt-4">
+						Please select a size!
+					</div>
+				) : null}
 				<div className="flex justify-center mt-4">
-					<button
-						className="bg-gray-900 hover:bg-gray-800 text-white w-full py-6 rounded-md"
-						onClick={handleAddToCart}
-					>
-						Add to Cart
-					</button>
+					<Button handleButtonClick={addToCart} text="ADD TO CART" />
 				</div>
 			</div>
 		</div>
 	)
 }
-export default ShoeId

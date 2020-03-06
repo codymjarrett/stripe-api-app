@@ -13,6 +13,9 @@ module.exports = {
 				'84': '21rem',
 				'96': '24rem',
 			},
+			margin: {
+				'30vh': '30vh',
+			},
 		},
 		inset: {
 			'-16': '-4rem',
@@ -34,13 +37,27 @@ module.exports = {
 	variants: {
 		opacity: ['responsive', 'hover', 'focus', 'disabled'],
 	},
-	plugins: [],
+	plugins: [
+		require('tailwindcss-pseudo-elements'),
+
+		function({ addUtilities }) {
+			addUtilities(
+				{
+					'.empty-content': {
+						content: "''",
+					},
+				},
+				['before']
+			)
+		},
+	],
 	modules: {
 		appearance: ['responsive'],
 		backgroundAttachment: ['responsive'],
 		backgroundColors: ['responsive', 'hover'],
 		backgroundPosition: ['responsive'],
 		backgroundRepeat: ['responsive'],
+		textColors: ['responsive', 'hover', 'focus', 'before', 'after'],
 		// ...
 	},
 }

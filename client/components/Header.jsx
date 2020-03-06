@@ -14,7 +14,7 @@ import {
 } from '../util/constants'
 
 import { TopBanner } from './TopBanner'
-import { SvgButton } from '../svg/SvgButton'
+import { SvgButton } from './SvgButton'
 
 import { AppContext } from '../util/context'
 import { useQuery } from '@apollo/react-hooks'
@@ -102,23 +102,25 @@ export const Header = () => {
 					</div>
 				) : (
 					<Link href="/">
-						<h1 className="cursor-pointer">Name of this site!</h1>
+						<h1 className="text-xl cursor-pointer font-semibold">Shoe Shop</h1>
 					</Link>
 				)}
 				<div className="flex items-center">
 					<SvgButton classes="mr-4" handleOnClick={handleOnClick}>
 						{renderToggleButton()}
 					</SvgButton>
-					<div className="relative">
-						<SvgButton classes="align-middle">
-							<ShoppingCart height="26" width="26" />
-						</SvgButton>
-						{state.cart.length > 0 ? (
-							<span className="absolute bg-orange-600 left-50 rounded-full w-4 text-center text-white text-xs -top-575 transform -translate-x-1/2">
-								{state.cart.length}
-							</span>
-						) : null}
-					</div>
+					<Link href="/cart">
+						<div className="relative">
+							<SvgButton classes="align-middle">
+								<ShoppingCart height="26" width="26" />
+							</SvgButton>
+							{state.cart.length > 0 ? (
+								<span className="absolute bg-orange-600 left-50 rounded-full w-4 text-center text-white text-xs -top-575 transform -translate-x-1/2">
+									{state.cart.length}
+								</span>
+							) : null}
+						</div>
+					</Link>
 				</div>
 			</div>
 			<nav></nav>
