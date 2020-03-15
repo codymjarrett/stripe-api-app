@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { AppContext } from '../util/context'
 import { SET_SIZE_ONCHANGE, SET_QUANTITY_ONCHANGE } from '../util/constants'
+import {range, each} from 'lodash'
 
 export const ShoeInCart = () => {
 	const { state, dispatch } = useContext(AppContext)
@@ -58,9 +59,9 @@ export const ShoeInCart = () => {
 							<p className="text-sm mr-2 text-gray-500">Quantity</p>
 							<span>
 								<select onChange={e => handleQuantityOnChange(e, index)}>
-									{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(quantity => (
-										<option value={quantity}>{quantity}</option>
-									))}
+								{each(range(1, 11)).map(quantity => (
+										<option value={quantity}>{quantity}</option>))}
+
 								</select>
 							</span>
 						</div>

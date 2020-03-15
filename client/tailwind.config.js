@@ -16,6 +16,10 @@ module.exports = {
 			margin: {
 				'30vh': '30vh',
 			},
+			// backgroundColors: {
+			//  black: '#000',
+			//  'black-60': 'rgba(0, 0, 0, 0.6)',
+			// },
 		},
 		inset: {
 			'-16': '-4rem',
@@ -39,7 +43,6 @@ module.exports = {
 	},
 	plugins: [
 		require('tailwindcss-pseudo-elements'),
-
 		function({ addUtilities }) {
 			addUtilities(
 				{
@@ -50,6 +53,16 @@ module.exports = {
 				['before']
 			)
 		},
+		// require('tailwindcss-alpha')({
+		// 	modules: {
+		// 	  backgroundColors: []
+		// 	},
+		// 	alpha: {
+		// 	  '10': 0.1,
+		// 	  '30': 0.3,
+		// 	  '60': 0.6,
+		// 	}
+		//   })
 	],
 	modules: {
 		appearance: ['responsive'],

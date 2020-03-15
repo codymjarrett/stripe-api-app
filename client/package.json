@@ -19,13 +19,16 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
+    "lodash": "^4.17.15",
     "next": "9.2.2",
     "next-with-apollo": "^5.0.0",
     "react": "16.13.0",
-    "react-dom": "16.13.0"
+    "react-dom": "16.13.0",
+    "react-stripe-checkout": "^2.6.3"
   },
   "devDependencies": {
     "postcss-preset-env": "^6.7.0",
+    "prettier": "^1.19.1",
     "tailwindcss": "^1.2.0",
     "tailwindcss-pseudo-elements": "^1.1.2"
   }

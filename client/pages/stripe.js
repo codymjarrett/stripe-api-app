@@ -1,14 +1,18 @@
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-
-import { CheckoutForm } from '../components/stripe/CheckoutForm'
-
-const stripePromise = loadStripe('pk_test_Z28yIrPvMmHBCOCBrPxHvpE200cDhfwTGT')
+import StripeCheckout from 'react-stripe-checkout'
+import { useContext, useEffect, useState } from 'react'
+import { AppContext } from '../util/context'
 
 export default function Stripe() {
+	const { state, dispatch } = useContext(AppContext)
+
 	return (
-		<Elements stripe={stripePromise}>
-			<CheckoutForm />
-		</Elements>
+		<div>
+			{state.cart}
+			<StripeCheckout
+				// token={this.onToken}
+				stripeKey={process.env.PUBLISHABLE_KEY}
+			/>
+			
+		</div>
 	)
 }

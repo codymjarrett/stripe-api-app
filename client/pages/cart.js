@@ -1,12 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import Router from 'next/router'
 import { AppContext } from '../util/context'
 import { Button } from '../components/Button'
 import { ShoeInCart } from '../components/ShoeInCart'
 import { CartSummary } from '../components/CartSummary'
+import { Modal } from '../components/Modal'
 import { SET_STRIPE_OBJECT } from '../util/constants'
 
 export default function Cart() {
 	const { state, dispatch } = useContext(AppContext)
+	const [showModal, setShowModal] = useState(false)
 	const fauxShippingAndHandling = useState('5.00')
 	const fauxTax = useState('12.16')
 
@@ -36,7 +39,9 @@ export default function Cart() {
 				})),
 			},
 		})
+		setShowModal(!showModal)
 	}
+	
 
 	if (!state.cart.length) {
 		return <div className="text-center mt-30vh text-2xl">CART IS EMPTY!</div>
@@ -60,9 +65,34 @@ export default function Cart() {
 					calculateTotalTaxAndShipping={calculateTotalTaxAndShipping}
 				/>
 				<div className="mt-12">
-					<Button handleButtonClick={checkout} text="GO TO CHECKOUT" />
+					<Button
+						handleButtonClick={checkout}
+						text="GO TO CHECKOUT"
+						large={true}
+					/>
 				</div>
+				<Modal show={showModal} handleClose={setShowModal}>
+				<div className="px-8">
+					<div className="mt-8">
+						<Button
+							handleButtonClick={() => Router.push('/stripe')}
+							text="Guest Checkout"
+							small={true}
+							round={true}
+						/>
+					</div>
+					<div className="mt-6">
+						<Button
+							handleButtonClick={null}
+							text="Member Checkout"
+							small={true}
+							round={true}
+						/>
+					</div>
+				</div>
+				</Modal>
 			</div>
 		)
 	}
 }
+

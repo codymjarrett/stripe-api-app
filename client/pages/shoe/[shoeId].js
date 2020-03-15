@@ -184,7 +184,7 @@ export default function ShoeId() {
 					</div>
 				) : null}
 				<div className="flex justify-center mt-4">
-					<Button handleButtonClick={addToCart} text="ADD TO CART" />
+					<Button handleButtonClick={addToCart} text="ADD TO CART" large={true}/>
 				</div>
 			</div>
 		</div>
